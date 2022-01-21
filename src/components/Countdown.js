@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Countdown() {
   const [stop, setStop] = useState(true);
-  const [isCountDone, setIsCountDone] = useState();
   const [isTimeValid, setIsTimeValid] = useState(true);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -19,8 +18,7 @@ export default function Countdown() {
           if (minutes === 0) {
             clearInterval(myInterval);
             setStop(true);
-            setIsCountDone(true);
-            setIsCountDone(false);
+
             navigate("/result");
           } else {
             setMinutes(minutes - 1);
@@ -35,7 +33,11 @@ export default function Countdown() {
   });
 
   const handleSetDrawTime = (e) => {
-    setMinutes(parseInt(e.target.value));
+    if (isNaN(parseInt(e.target.value))) {
+      setMinutes("");
+    } else {
+      setMinutes(parseInt(e.target.value));
+    }
   };
 
   const handleReset = () => {
@@ -62,22 +64,26 @@ export default function Countdown() {
         <h2>Set time to draw a Pokemon</h2>
         <div className="timer-setting">
           <div>
-            {isTimeValid ? <input
-              type="number"
-              min="1"
-              step="1"
-              value={minutes}
-              onChange={handleSetDrawTime}
-              disabled={stop ? false : true}
-            />:
-            <input className="error-input"
-              type="number"
-              min="1"
-              step="1"
-              value={minutes}
-              onChange={handleSetDrawTime}
-              disabled={stop ? false : true}
-            />}
+            {isTimeValid ? (
+              <input
+                type="number"
+                min="1"
+                step="1"
+                value={minutes}
+                onChange={handleSetDrawTime}
+                disabled={stop ? false : true}
+              />
+            ) : (
+              <input
+                className="error-input"
+                type="number"
+                min="1"
+                step="1"
+                value={minutes}
+                onChange={handleSetDrawTime}
+                disabled={stop ? false : true}
+              />
+            )}
             <label>minute(s)</label>
           </div>
           {stop ? (
