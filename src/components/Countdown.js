@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function Countdown() {
   const [stop, setStop] = useState(true);
-  const [isCountDone, setIsCountDone] = useState(false);
-  const [num, setNum] = useState("");
+  const [isCountDone, setIsCountDone] = useState();
+  const [isTimeValid, setIsTimeValid] = useState(true);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     let myInterval = setInterval(() => {
-      if (!stop) {
+      if (!stop && isTimeValid) {
         if (seconds > 0) {
           setSeconds(seconds - 1);
         }
@@ -35,35 +35,56 @@ export default function Countdown() {
   });
 
   const handleSetDrawTime = (e) => {
-    setNum(e.target.value);
-    setMinutes(e.target.value);
+    setMinutes(parseInt(e.target.value));
   };
 
   const handleReset = () => {
     setStop(true);
-    setNum("");
     setMinutes(0);
     setSeconds(0);
   };
 
+  const handleErrorTimeData = () => {
+    setMinutes(0);
+  };
+
+  useEffect(() => {
+    if (minutes === "" || minutes < 0 || isNaN(minutes)) {
+      setIsTimeValid(false);
+    } else {
+      setIsTimeValid(true);
+    }
+  }, [minutes]);
+
   return (
     <>
       <div className="countdown-container">
-        <h2>抽獎時間</h2>
+        <h2>Set time to draw a Pokemon</h2>
         <div className="timer-setting">
           <div>
-            <input
+            {isTimeValid ? <input
               type="number"
               min="1"
               step="1"
               value={minutes}
               onChange={handleSetDrawTime}
               disabled={stop ? false : true}
-            ></input>
-            <label>分鐘</label>
+            />:
+            <input className="error-input"
+              type="number"
+              min="1"
+              step="1"
+              value={minutes}
+              onChange={handleSetDrawTime}
+              disabled={stop ? false : true}
+            />}
+            <label>minute(s)</label>
           </div>
           {stop ? (
-            <div className="set-button" onClick={() => setStop(false)}>
+            <div
+              className="set-button"
+              onClick={isTimeValid ? () => setStop(false) : handleErrorTimeData}
+            >
               Draw
             </div>
           ) : (
@@ -72,14 +93,17 @@ export default function Countdown() {
             </div>
           )}
         </div>
+        {!isTimeValid && (
+          <span className="error-message">Please enter valid time data</span>
+        )}
 
         <div className="time">
-          {minutes === 0 && seconds === 0 ? (
+          {minutes < 0 || minutes === "" || isNaN(minutes) ? (
             <h1>00:00</h1>
           ) : (
             <h1>
-              {" "}
-              {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+              {minutes < 10 ? `0${minutes}` : minutes}:
+              {seconds < 10 ? `0${seconds}` : seconds}
             </h1>
           )}
         </div>

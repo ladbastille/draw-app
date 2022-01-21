@@ -7,9 +7,9 @@ export default function Lists() {
 
   return (
     <div className="lists-container">
-      <h2>參與抽獎名單 ({pokemons?.length}個)</h2>
+      <h2>Pokemon List ({pokemons?.length})</h2>
       <div className="cards-wrap">
-      {pokemons?.map((data) => {
+      {pokemons ? pokemons?.map((data) => {
         return (
           <div className="card" key={data.name}>
             <img
@@ -20,7 +20,8 @@ export default function Lists() {
             <div className="card-name"><p>{data.name}</p></div>
           </div>
         );
-      })}</div>
+      }) : <h4>Loading...</h4>}
+      </div>
     </div>
   );
 }

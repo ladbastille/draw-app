@@ -7,14 +7,16 @@ import { getRandomInt } from "../utils/getRandomInt";
 
 export default function Main() {
   const dispatch = useDispatch();
+  const maxPokemonNumber = 151;
 
   useEffect(() => {
-    const unsub = fetch(`https://pokeapi.co/api/v2/pokemon?limit=${getRandomInt(151)}`)
+    const unsub = fetch(
+      `https://pokeapi.co/api/v2/pokemon?limit=${getRandomInt(maxPokemonNumber)}`
+    )
       .then((res) => res.json())
-      .then(results=>{
-      dispatch(getCurrentUser(results))
-    }
-      );
+      .then((results) => {
+        dispatch(getCurrentUser(results));
+      });
     return unsub;
   });
 

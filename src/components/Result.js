@@ -9,7 +9,7 @@ export default function Result(card) {
   
   return (
     <div className="result-container">
-      <h1>抽獎結果</h1>
+      <h1>Your Pokemon is:</h1>
       {drawFromData && (
         <div className="result-card">
           <img

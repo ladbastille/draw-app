@@ -22,12 +22,16 @@
   overflow: scroll;
 }
 
+.cards-wrap h4 {
+  text-align: center;
+}
+
 .lists-container h2 {
   text-align: center;
 }
 
 .card {
-  width: 90%;
+  width: 95%;
   display: flex;
   justify-content: space-evenly;
   background-color: rgb(215, 215, 215);
@@ -56,9 +60,15 @@
 }
 
 .timer-setting label,
-input {
+input,
+.error-input {
   margin-left: 10px;
   height: 38px;
+}
+
+.error-input {
+  border: 2px solid tomato;
+  border-radius: 5px;
 }
 
 .timer-setting label {
@@ -105,14 +115,23 @@ input {
   margin-bottom: 10px;
 }
 
+.error-message {
+  margin-top: 5px;
+  margin-left: 10px;
+  color: tomato;
+  font-weight: bold;
+  position: absolute;
+  top: 22%;
+}
+
 @media (max-width: 1024px) {
   .main-container {
     flex-direction: column;
   }
-  
-  .countdown-container{
-      height:35vh;
-      width: 90%;
+
+  .countdown-container {
+    height: 65vh;
+    width: 90%;
   }
 
   .lists-container {
@@ -125,8 +144,11 @@ input {
   }
 }
 
-@media(max-width:768px){
-    .time h1 {
-        font-size: 7rem;
-      }
+@media (max-width: 768px) {
+  .time h1 {
+    font-size: 7rem;
+  }
+  .countdown-container {
+    height: 50vh;
+  }
 }
